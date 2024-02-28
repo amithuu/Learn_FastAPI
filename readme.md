@@ -14,7 +14,7 @@
 
 # Topic 1: basic setup:
 @app.[get,post,put,delete]('route_link')
-* [@app.get('/) ,  @app.post('user')] []
+* [@app.get('/') ,  @app.post('/user')] []
 
 
 # Topic 2: Path parameters..

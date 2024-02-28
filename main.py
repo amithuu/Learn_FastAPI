@@ -126,8 +126,8 @@ app = FastAPI()
 #     return item
 
 
-# # ?in the parameter we have given only one param  item_id , but to get the data we need other fields as well required how to do it,,
-# # ? without passing in parameter
+# # ?in the parameter we have given only one param  item_id , but to get the data we need other fields are required as well how to do it,,
+# # ? without passing in parameter {but passing in function}..
 
 # @app.get('/items/{item_id}')
 # async def get_item(item_id: str,sample_query_param:str, q: Optional[str] = None, short: bool=False):
@@ -189,3 +189,4 @@ async def create_item_with_put(item:Item, item_id:int):
 #     if q:
 #         result.update({'q':q})
 #     return result
+
