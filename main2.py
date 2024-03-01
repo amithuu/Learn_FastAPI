@@ -104,8 +104,9 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
 async def get_current_user(token: str = Depends(oauth2_schema)):
     error = HTTPException(detail='no authorized user')
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username = payload.get('sub')
+        data = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # this data sub we are getting...# data={'sub': user.username}, expire_delta=expire_access_token)
+        username = data.get('sub')
         if username is None:
             raise error
         token_data = TokenData(username=username)
@@ -119,5 +120,20 @@ async def get_current_user(token: str = Depends(oauth2_schema)):
     return user
 
 
-# checking whether the suer is active or not..
-# continue tommrow..
+# checking whether the user is active or not..
+async def get_current_user_active(current_user:str=Depends(get_current_user)):
+    if current_user.disabled:
+        raise HTTPException(detail='no authorized user')
+    return current_user
+
+
+@app.get('/users/me', response_model=User)
+async def get_user_me(current_user:User=Depends(get_current_user_active)):
+    return current_user
+
+@app.get('/users/me/items')
+async def get_user_items(current_user:User=Depends(get_current_user_active)):
+    return {"item_id":1,'current_user':current_user}
+
+
+        
